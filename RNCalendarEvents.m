@@ -533,22 +533,6 @@ RCT_EXPORT_MODULE()
         NSMutableArray *attendees = [[NSMutableArray alloc] init];
         
         for (EKParticipant *attendee in event.attendees) {
-
-            NSLog(@"%@", attendee);
-
-             NSLog(@"%@", attendee.participantRole);
-
-              NSLog(@"%@", attendee.participantStatus);
-
-              NSLog(@"%@", attendee.participantType);
-            
-            print("attendee%@", attendee)
-            
-            print("attendee- Role %@", attendee.participantRole);
-
-            print("attendee- Status %@", attendee.participantStatus);
-            
-            print("attendee- type %@", attendee.participantType);
             
             NSMutableDictionary *descriptionData = [NSMutableDictionary dictionary];
             for (NSString *pairString in [attendee.description componentsSeparatedByString:@";"])
@@ -563,9 +547,9 @@ RCT_EXPORT_MODULE()
             NSString *name = [descriptionData valueForKey:@"name"];
             NSString *email = [descriptionData valueForKey:@"email"];
             NSString *phone = [descriptionData valueForKey:@"phone"];
-            NSString *relationship = [NSString stringWithFormat: @"%d", attendee.participantRole];
-            NSString *status = [NSString stringWithFormat: @"%d", attendee.participantStatus];
-            NSString *type = [NSString stringWithFormat: @"%d", attendee.participantType];
+            NSString *relationship = [NSString stringWithFormat: @"%ld", (long)attendee.participantRole] ;
+            NSString *status = [NSString stringWithFormat: @"%ld", (long)attendee.participantStatus];
+            NSString *type = [NSString stringWithFormat: @"%ld", (long)attendee.participantType];
 
             if(email && ![email isEqualToString:@"(null)"]) {
                 [formattedAttendee setValue:email forKey:@"email"];
