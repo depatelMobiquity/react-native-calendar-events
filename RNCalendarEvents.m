@@ -531,8 +531,25 @@ RCT_EXPORT_MODULE()
 
     if (event.attendees) {
         NSMutableArray *attendees = [[NSMutableArray alloc] init];
+        
         for (EKParticipant *attendee in event.attendees) {
 
+            NSLog(@"%@", attendee);
+
+             NSLog(@"%@", attendee.participantRole);
+
+              NSLog(@"%@", attendee.participantStatus);
+
+              NSLog(@"%@", attendee.participantType);
+            
+            print("attendee%@", attendee)
+            
+            print("attendee- Role %@", attendee.participantRole);
+
+            print("attendee- Status %@", attendee.participantStatus);
+            
+            print("attendee- type %@", attendee.participantType);
+            
             NSMutableDictionary *descriptionData = [NSMutableDictionary dictionary];
             for (NSString *pairString in [attendee.description componentsSeparatedByString:@";"])
             {
@@ -546,9 +563,9 @@ RCT_EXPORT_MODULE()
             NSString *name = [descriptionData valueForKey:@"name"];
             NSString *email = [descriptionData valueForKey:@"email"];
             NSString *phone = [descriptionData valueForKey:@"phone"];
-            NSString *relationship = [descriptionData valueForKey:@"relationship"];
-            NSString *status = [descriptionData valueForKey:@"status"];
-            NSString *type = [descriptionData valueForKey:@"type"];
+            NSString *relationship = [NSString stringWithFormat: @"%d", attendee.participantRole];
+            NSString *status = [NSString stringWithFormat: @"%d", attendee.participantStatus];
+            NSString *type = [NSString stringWithFormat: @"%d", attendee.participantType];
 
             if(email && ![email isEqualToString:@"(null)"]) {
                 [formattedAttendee setValue:email forKey:@"email"];
@@ -581,7 +598,7 @@ RCT_EXPORT_MODULE()
                 [formattedAttendee setValue:@"" forKey:@"status"];
             }
             if(type && ![type isEqualToString:@"(null)"]) {
-                [formattedAttendee setValue:status forKey:@"type"];
+                [formattedAttendee setValue:type forKey:@"type"];
             }
             else {
                 [formattedAttendee setValue:@"" forKey:@"type"];
