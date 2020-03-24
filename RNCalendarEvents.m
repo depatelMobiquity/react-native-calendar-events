@@ -546,9 +546,9 @@ RCT_EXPORT_MODULE()
             NSString *name = [descriptionData valueForKey:@"name"];
             NSString *email = [descriptionData valueForKey:@"email"];
             NSString *phone = [descriptionData valueForKey:@"phone"];
-            NSString *phone = [descriptionData valueForKey:@"relationship"];
-            NSString *phone = [descriptionData valueForKey:@"status"];
-            NSString *phone = [descriptionData valueForKey:@"type"];
+            NSString *relationship = [descriptionData valueForKey:@"relationship"];
+            NSString *status = [descriptionData valueForKey:@"status"];
+            NSString *type = [descriptionData valueForKey:@"type"];
 
             if(email && ![email isEqualToString:@"(null)"]) {
                 [formattedAttendee setValue:email forKey:@"email"];
@@ -580,7 +580,7 @@ RCT_EXPORT_MODULE()
             else {
                 [formattedAttendee setValue:@"" forKey:@"status"];
             }
-            if(status && ![type isEqualToString:@"(null)"]) {
+            if(type && ![type isEqualToString:@"(null)"]) {
                 [formattedAttendee setValue:status forKey:@"type"];
             }
             else {
