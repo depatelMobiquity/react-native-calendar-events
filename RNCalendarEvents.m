@@ -524,12 +524,34 @@ RCT_EXPORT_MODULE()
     if (event.URL) {
         [formedCalendarEvent setValue:[event.URL absoluteString] forKey:_url];
     }
+    
 
     if (event.location) {
         [formedCalendarEvent setValue:event.location forKey:_location];
     }
 
     if (event.attendees) {
+        
+        NSString *orgemail = @"";
+        
+        if(event.organizer) {
+        
+        EKParticipant *organizer = event.organizer;
+
+        NSString *organizerDescription = [organizer description];
+        
+         NSMutableDictionary *descriptionDataOrganizer = [NSMutableDictionary dictionary];
+                   for (NSString *pairString in [organizerDescription componentsSeparatedByString:@";"])
+                   {
+                       NSArray *pairorg = [pairString componentsSeparatedByString:@"="];
+                       if ( [pairorg count] != 2)
+                           continue;
+                       [descriptionDataOrganizer setObject:[[pairorg objectAtIndex:1] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] forKey:[[pairorg objectAtIndex:0]stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
+                   }
+        
+        orgemail = [descriptionDataOrganizer valueForKey:@"email"];
+       }
+        
         NSMutableArray *attendees = [[NSMutableArray alloc] init];
         
         for (EKParticipant *attendee in event.attendees) {
@@ -570,7 +592,11 @@ RCT_EXPORT_MODULE()
                 [formattedAttendee setValue:@"" forKey:@"name"];
             }
             if(relationship && ![relationship isEqualToString:@"(null)"]) {
-                [formattedAttendee setValue:relationship forKey:@"relationship"];
+                if([orgemail isEqualToString:email]){
+                    [formattedAttendee setValue:@"2" forKey:@"relationship"];
+                }else {
+                    [formattedAttendee setValue:relationship forKey:@"relationship"];
+                }
             }
             else {
                 [formattedAttendee setValue:@"" forKey:@"relationship"];
